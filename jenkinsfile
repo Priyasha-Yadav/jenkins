@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        VERSION = '1.0'
+    }
     stages {
         stage('compile') {
             steps {
@@ -9,7 +12,19 @@ pipeline {
         stage('run') {
             steps {
                 sh 'java Main.java'
+                sh 'echo "Version: ${VERSION}"'
             }
+        }
+    }
+    post {
+        always {
+            sh 'This will always run'
+        }
+        success {
+            sh 'This will run only if successful'
+        }
+        failure {
+            sh 'This will run only if failed'
         }
     }
 }
